@@ -11,38 +11,51 @@ public abstract class SkyFinder {
     public abstract boolean canSeeSky(Location startLoc, int distance);
 
     protected boolean solidBlock(Block b) {
-         Material m = b.getType();
-         return m != Material.AIR &&
-                m != Material.TORCH &&
-                m != Material.SUGAR_CANE_BLOCK &&
-                m != Material.SAPLING &&
-                m != Material.WEB &&
-                m != Material.LONG_GRASS &&
-                m != Material.DEAD_BUSH &&
-                m != Material.YELLOW_FLOWER &&
-                m != Material.RED_ROSE &&
-                m != Material.BROWN_MUSHROOM &&
-                m != Material.RED_MUSHROOM &&
-                m != Material.REDSTONE_TORCH_ON &&
-                m != Material.REDSTONE_TORCH_OFF &&
-                m != Material.REDSTONE_WIRE &&
-                m != Material.VINE &&
-                m != Material.CAKE_BLOCK &&
-                m != Material.LADDER &&
-                m != Material.FENCE &&
-                m != Material.FENCE_GATE &&
-                m != Material.RAILS &&
-                m != Material.POWERED_RAIL &&
-                m != Material.DETECTOR_RAIL;
+        return solidBlock(b.getTypeId());
+    }
+
+    protected boolean solidBlock(Location l) {
+        return solidBlock(l.getWorld().getBlockTypeIdAt(l));
+    }
+
+    protected boolean solidBlock(int typeId) {
+         return  typeId != Material.AIR.getId() &&
+                 typeId != Material.TORCH.getId() &&
+                 typeId != Material.SUGAR_CANE_BLOCK.getId() &&
+                 typeId != Material.SAPLING.getId() &&
+                 typeId != Material.WEB.getId() &&
+                 typeId != Material.LONG_GRASS.getId() &&
+                 typeId != Material.DEAD_BUSH.getId() &&
+                 typeId != Material.YELLOW_FLOWER.getId() &&
+                 typeId != Material.RED_ROSE.getId() &&
+                 typeId != Material.BROWN_MUSHROOM.getId() &&
+                 typeId != Material.RED_MUSHROOM.getId() &&
+                 typeId != Material.REDSTONE_TORCH_ON.getId() &&
+                 typeId != Material.REDSTONE_TORCH_OFF.getId() &&
+                 typeId != Material.REDSTONE_WIRE.getId() &&
+                 typeId != Material.VINE.getId() &&
+                 typeId != Material.CAKE_BLOCK.getId() &&
+                 typeId != Material.LADDER.getId() &&
+                 typeId != Material.FENCE.getId() &&
+                 typeId != Material.FENCE_GATE.getId() &&
+                 typeId != Material.RAILS.getId() &&
+                 typeId != Material.POWERED_RAIL.getId() &&
+                 typeId != Material.DETECTOR_RAIL.getId() &&
+                 typeId != Material.SNOW.getId();
     }
 
     protected boolean blockSeesSky(Block b) {
-        if(b.getY() >= b.getWorld().getHighestBlockYAt(b.getLocation())) {
-            int x = b.getX();
-            int z = b.getZ();
-            World w = b.getWorld();
-            for(int y = b.getY(); y < 128; y++) {
-                if(solidBlock(w.getBlockAt(x, y, z))) {
+        return blockSeesSky(b.getX(), b.getY(), b.getZ(), b.getWorld());
+    }
+
+    protected boolean blockSeesSky(Location l) {
+        return blockSeesSky(l.getBlockX(), l.getBlockY(), l.getBlockZ(), l.getWorld());
+    }
+
+    protected boolean blockSeesSky(int x, int y, int z, World w) {
+        if(y >= w.getHighestBlockYAt(x, z)) {
+            for(int yy = y; y < 128; y++) {
+                if(solidBlock(w.getBlockAt(x, yy, z))) {
                     return false;
                 }
             }

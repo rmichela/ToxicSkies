@@ -1,6 +1,8 @@
 package com.ryanmichela.toxicskies;
 
 import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -8,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TsPlugin extends JavaPlugin
 {
     public void onEnable() {
-        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_MOVE, new PlayerMoveHandler(), Event.Priority.Normal, this);
+        getServer().getPluginManager().registerEvents( new PlayerMoveHandler(), this);
     }
 
     public void onDisable() {
