@@ -54,8 +54,9 @@ public abstract class SkyFinder {
 
     protected boolean blockSeesSky(int x, int y, int z, World w) {
         if(y >= w.getHighestBlockYAt(x, z)) {
-            for(int yy = y; y < 128; y++) {
-                if(solidBlock(w.getBlockAt(x, yy, z))) {
+            for(int yy = y; yy < 256; yy++) {
+                int blockTypeId = w.getBlockTypeIdAt(x, yy, z);
+                if(solidBlock(blockTypeId)) {
                     return false;
                 }
             }
