@@ -50,10 +50,11 @@ public class DepthFirstSkyFinder extends SkyFinder {
         }
 
         // 2. Depth first search the void-adjacency matrix for sky-seeing blocks
-        return canSeeSkyRec(startLoc, distance, adj);
+        Map<Location, Integer> seen = new HashMap<Location, Integer>();
+        return canSeeSkyRec(startLoc, distance, adj, seen);
     }
 
-    private boolean canSeeSkyRec(Location l, int depth, Map<Location, Set<Location>> adj){
+    private boolean canSeeSkyRec(Location l, int depth, Map<Location, Set<Location>> adj, Map<Location, Integer> seen){
         // ran out of depth
         if (depth == 0) {
             return false;
@@ -65,7 +66,15 @@ public class DepthFirstSkyFinder extends SkyFinder {
 
         boolean found = false;
         for (Location m : adj.get(l)) {
-            if (canSeeSkyRec(m, depth - 1, adj)) {
+            // Only evaluate/reevaluate a location if we have found a shorter way to get to it
+            Integer lastSeen = seen.get(m);
+            if (lastSeen == null || lastSeen < depth - 1) {
+                seen.put(m, depth);
+            } else {
+                continue;
+            }
+
+            if (canSeeSkyRec(m, depth - 1, adj, seen)) {
                 found = true;
                 break;
             }

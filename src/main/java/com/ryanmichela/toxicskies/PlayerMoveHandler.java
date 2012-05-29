@@ -28,7 +28,7 @@ public class PlayerMoveHandler implements Listener {
         Location from = event.getFrom();
         Location to = event.getTo();
 
-        boolean canSeeSky = skyFinder.canSeeSky(normalize(to).add(0, 1, 0), 5);
+        boolean canSeeSky = skyFinder.canSeeSky(normalize(to).add(0, 1, 0), 10);
 
         if(from.getBlockX() != to.getBlockX() || from.getBlockY() != to.getBlockY() || from.getBlockZ() != to.getBlockZ()) {
             if(canSeeSky) {
