@@ -41,7 +41,9 @@ public abstract class SkyFinder {
                  typeId != Material.RAILS.getId() &&
                  typeId != Material.POWERED_RAIL.getId() &&
                  typeId != Material.DETECTOR_RAIL.getId() &&
-                 typeId != Material.SNOW.getId();
+                 typeId != Material.SNOW.getId() &&
+                 typeId != Material.WOODEN_DOOR.getId() &&
+                 typeId != Material.IRON_DOOR_BLOCK.getId();
     }
 
     protected boolean blockSeesSky(Block b) {
