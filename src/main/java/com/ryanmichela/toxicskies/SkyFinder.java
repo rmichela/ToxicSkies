@@ -33,6 +33,9 @@ public abstract class SkyFinder {
                  typeId != Material.REDSTONE_TORCH_ON.getId() &&
                  typeId != Material.REDSTONE_TORCH_OFF.getId() &&
                  typeId != Material.REDSTONE_WIRE.getId() &&
+                 typeId != Material.LEVER.getId() &&
+                 typeId != Material.DIODE_BLOCK_ON.getId() &&
+                 typeId != Material.DIODE_BLOCK_OFF.getId() &&
                  typeId != Material.VINE.getId() &&
                  typeId != Material.CAKE_BLOCK.getId() &&
                  typeId != Material.LADDER.getId() &&

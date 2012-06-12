@@ -2,6 +2,7 @@ package com.ryanmichela.toxicskies;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
 import org.bukkit.material.Door;
 
 import java.util.*;
@@ -20,7 +21,7 @@ public class DepthFirstSkyFinder extends SkyFinder {
             for(double y = startLoc.getBlockY() - distance; y < startLoc.getBlockY() + distance; y++) {
                 for(double z = startLoc.getBlockZ() - distance; z < startLoc.getBlockZ() + distance; z++) {
                     Location l = new Location(startLoc.getWorld(), x, y, z);
-                    if (!solidBlock(l)) {
+                    if (!solidBlock(l) && passable(l)) {
                         considerAdjacency(l, l.clone().add(1, 0, 0), adj);
                         considerAdjacency(l, l.clone().add(-1, 0, 0), adj);
                         considerAdjacency(l, l.clone().add(0, 1, 0), adj);
@@ -38,16 +39,24 @@ public class DepthFirstSkyFinder extends SkyFinder {
     }
 
     private void considerAdjacency(Location base, Location offset, Map<Location, Set<Location>> adj) {
-        int offsetType = offset.getWorld().getBlockTypeIdAt(offset);
-        if (!solidBlock(offsetType)) {
-            if (offsetType == Material.IRON_DOOR.getId() || offsetType == Material.WOODEN_DOOR.getId()) {
-                Door doorBlock = (Door)offset.getWorld().getBlockAt(offset);
-                if (doorBlock.isOpen()) {
-                    setAdjacency(base, offset, adj);
-                }
+        if (!solidBlock(offset) && passable(offset)) {
+            setAdjacency(base, offset, adj);
+        }
+    }
+
+    private boolean passable(Location l) {
+        int blockType = l.getWorld().getBlockTypeIdAt(l);
+        if (blockType == Material.IRON_DOOR_BLOCK.getId() || blockType == Material.WOODEN_DOOR.getId()) {
+            Door doorBlock = (Door)l.getBlock().getState().getData();
+            if (doorBlock.isOpen()) {
+                return true;
+            } else if (doorBlock.isTopHalf()) {
+                return passable(l.clone().subtract(0,1,0)); // Needed because the tops of doors are always closed
             } else {
-                setAdjacency(base, offset, adj);
+                return false;
             }
+        } else {
+            return true;
         }
     }
 
