@@ -13,13 +13,27 @@ public class DepthFirstSkyFinder extends SkyFinder {
 
     @Override
     public boolean canSeeSky(Location startLoc, int distance) {
+        // 0. Scan the top layer to see if there is even a possibility of seeing the sky
+        boolean somethingSawSky = false;
+        outer:for(int x = startLoc.getBlockX() - distance; x < startLoc.getBlockX() + distance; x++) {
+            for(int z = startLoc.getBlockZ() - distance; z < startLoc.getBlockZ() + distance; z++) {
+                if (startLoc.getBlockY() + distance >= startLoc.getWorld().getHighestBlockYAt(x, z)) {
+                    somethingSawSky = true;
+                    break outer;
+                }
+            }
+        }
+        if (!somethingSawSky) {
+            return false;
+        }
+
 
         // 1. Build the void-adjacency list
         HashMap<Location, Set<Location>> adj = new HashMap<Location, Set<Location>>();
 
-        for(double x = startLoc.getBlockX() - distance; x < startLoc.getBlockX() + distance; x++) {
-            for(double y = startLoc.getBlockY() - distance; y < startLoc.getBlockY() + distance; y++) {
-                for(double z = startLoc.getBlockZ() - distance; z < startLoc.getBlockZ() + distance; z++) {
+        for(int x = startLoc.getBlockX() - distance; x < startLoc.getBlockX() + distance; x++) {
+            for(int y = startLoc.getBlockY() - distance; y < startLoc.getBlockY() + distance; y++) {
+                for(int z = startLoc.getBlockZ() - distance; z < startLoc.getBlockZ() + distance; z++) {
                     Location l = new Location(startLoc.getWorld(), x, y, z);
                     if (!solidBlock(l) && passable(l)) {
                         considerAdjacency(l, l.clone().add(1, 0, 0), adj);
