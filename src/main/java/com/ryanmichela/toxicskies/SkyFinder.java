@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.material.TrapDoor;
 
 /**
  */
@@ -41,12 +42,14 @@ public abstract class SkyFinder {
                  typeId != Material.LADDER.getId() &&
                  typeId != Material.FENCE.getId() &&
                  typeId != Material.FENCE_GATE.getId() &&
+                 typeId != Material.NETHER_FENCE.getId() &&
                  typeId != Material.RAILS.getId() &&
                  typeId != Material.POWERED_RAIL.getId() &&
                  typeId != Material.DETECTOR_RAIL.getId() &&
                  typeId != Material.SNOW.getId() &&
                  typeId != Material.WOODEN_DOOR.getId() &&
-                 typeId != Material.IRON_DOOR_BLOCK.getId();
+                 typeId != Material.IRON_DOOR_BLOCK.getId() &&
+                 typeId != Material.TRAP_DOOR.getId();
     }
 
     protected boolean blockSeesSky(Block b) {
@@ -63,6 +66,11 @@ public abstract class SkyFinder {
                 int blockTypeId = w.getBlockTypeIdAt(x, yy, z);
                 if(solidBlock(blockTypeId)) {
                     return false;
+                } else if (blockTypeId == Material.TRAP_DOOR.getId()) { // Trap doors conditionally block the sky
+                    TrapDoor trapDoorBlock = (TrapDoor)w.getBlockAt(x, yy, z).getState().getData();
+                    if (!trapDoorBlock.isOpen()) {
+                        return false;
+                    }
                 }
             }
             return true;

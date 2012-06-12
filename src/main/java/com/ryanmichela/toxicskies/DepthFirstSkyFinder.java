@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.Door;
+import org.bukkit.material.TrapDoor;
 
 import java.util.*;
 
@@ -60,12 +61,21 @@ public class DepthFirstSkyFinder extends SkyFinder {
 
     private boolean passable(Location l) {
         int blockType = l.getWorld().getBlockTypeIdAt(l);
+        // Deal with doors being open
         if (blockType == Material.IRON_DOOR_BLOCK.getId() || blockType == Material.WOODEN_DOOR.getId()) {
             Door doorBlock = (Door)l.getBlock().getState().getData();
             if (doorBlock.isOpen()) {
                 return true;
             } else if (doorBlock.isTopHalf()) {
                 return passable(l.clone().subtract(0,1,0)); // Needed because the tops of doors are always closed
+            } else {
+                return false;
+            }
+        // Deal with hatches being open
+        } else if (blockType == Material.TRAP_DOOR.getId()) {
+            TrapDoor trapDoorBlock = (TrapDoor)l.getBlock().getState().getData();
+            if (trapDoorBlock.isOpen()) {
+                return true;
             } else {
                 return false;
             }
