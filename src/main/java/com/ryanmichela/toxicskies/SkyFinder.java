@@ -43,6 +43,7 @@ public abstract class SkyFinder {
                  typeId != Material.FENCE.getId() &&
                  typeId != Material.FENCE_GATE.getId() &&
                  typeId != Material.NETHER_FENCE.getId() &&
+                 typeId != Material.IRON_FENCE.getId() &&
                  typeId != Material.RAILS.getId() &&
                  typeId != Material.POWERED_RAIL.getId() &&
                  typeId != Material.DETECTOR_RAIL.getId() &&

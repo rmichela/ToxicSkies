@@ -2,10 +2,12 @@ package com.ryanmichela.toxicskies;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.Door;
 import org.bukkit.material.TrapDoor;
 
+import java.nio.FloatBuffer;
 import java.util.*;
 
 public class DepthFirstSkyFinder extends SkyFinder {
@@ -36,13 +38,13 @@ public class DepthFirstSkyFinder extends SkyFinder {
             for(int y = startLoc.getBlockY() - distance; y < startLoc.getBlockY() + distance; y++) {
                 for(int z = startLoc.getBlockZ() - distance; z < startLoc.getBlockZ() + distance; z++) {
                     Location l = new Location(startLoc.getWorld(), x, y, z);
-                    if (!solidBlock(l) && passable(l)) {
-                        considerAdjacency(l, l.clone().add(1, 0, 0), adj);
-                        considerAdjacency(l, l.clone().add(-1, 0, 0), adj);
-                        considerAdjacency(l, l.clone().add(0, 1, 0), adj);
-                        considerAdjacency(l, l.clone().add(0, -1, 0), adj);
-                        considerAdjacency(l, l.clone().add(0, 0, 1), adj);
-                        considerAdjacency(l, l.clone().add(0, 0, -1), adj);
+                    if (!solidBlock(l)) {
+                        considerAdjacency(l, l.clone().add(1, 0, 0), BlockFace.SOUTH, adj);
+                        considerAdjacency(l, l.clone().add(-1, 0, 0), BlockFace.NORTH, adj);
+                        considerAdjacency(l, l.clone().add(0, 1, 0), BlockFace.UP, adj);
+                        considerAdjacency(l, l.clone().add(0, -1, 0), BlockFace.DOWN, adj);
+                        considerAdjacency(l, l.clone().add(0, 0, 1), BlockFace.WEST, adj);
+                        considerAdjacency(l, l.clone().add(0, 0, -1), BlockFace.EAST, adj);
                     }
                 }
             }
@@ -53,34 +55,69 @@ public class DepthFirstSkyFinder extends SkyFinder {
         return canSeeSkyRec(startLoc, distance, adj, seen);
     }
 
-    private void considerAdjacency(Location base, Location offset, Map<Location, Set<Location>> adj) {
-        if (!solidBlock(offset) && passable(offset)) {
+    private void considerAdjacency(Location base, Location offset, BlockFace fromDirection, Map<Location, Set<Location>> adj) {
+        if (!solidBlock(offset) && passable(offset, oppositeDirection(fromDirection)) && passable(base, fromDirection)) {
             setAdjacency(base, offset, adj);
         }
     }
 
-    private boolean passable(Location l) {
+    private BlockFace oppositeDirection(BlockFace d) {
+        if (d == BlockFace.WEST) return BlockFace.EAST;
+        if (d == BlockFace.EAST) return BlockFace.WEST;
+        if (d == BlockFace.SOUTH) return BlockFace.NORTH;
+        if (d == BlockFace.NORTH) return BlockFace.SOUTH;
+        if (d == BlockFace.UP) return BlockFace.DOWN;
+        if (d == BlockFace.DOWN) return BlockFace.UP;
+        return BlockFace.SELF;
+    }
+
+    private boolean passable(Location l, BlockFace fromDirection) {
         int blockType = l.getWorld().getBlockTypeIdAt(l);
         // Deal with doors being open
         if (blockType == Material.IRON_DOOR_BLOCK.getId() || blockType == Material.WOODEN_DOOR.getId()) {
-            Door doorBlock = (Door)l.getBlock().getState().getData();
-            if (doorBlock.isOpen()) {
+            if (isVerticallyAxial(fromDirection))  {
                 return true;
-            } else if (doorBlock.isTopHalf()) {
-                return passable(l.clone().subtract(0,1,0)); // Needed because the tops of doors are always closed
             } else {
-                return false;
+                Door doorBlock = (Door)l.getBlock().getState().getData();
+                if (doorBlock.isTopHalf()) {
+                    return passable(l.clone().subtract(0,1,0), fromDirection); // Needed because the tops of doors are always closed
+                } else {
+                    return !doorBlocksDirection(doorBlock, fromDirection);
+                }
             }
         // Deal with hatches being open
         } else if (blockType == Material.TRAP_DOOR.getId()) {
             TrapDoor trapDoorBlock = (TrapDoor)l.getBlock().getState().getData();
-            if (trapDoorBlock.isOpen()) {
+            if (trapDoorBlock.isOpen() || isHorizontallyPlanar(fromDirection)) {
                 return true;
             } else {
                 return false;
             }
         } else {
             return true;
+        }
+    }
+
+    private boolean isHorizontallyPlanar(BlockFace b) {
+        return b == BlockFace.NORTH || b == BlockFace.SOUTH || b == BlockFace.EAST || b == BlockFace.WEST;
+    }
+
+    private boolean isVerticallyAxial(BlockFace b) {
+        return b == BlockFace.UP || b == BlockFace.DOWN;
+    }
+
+    private boolean doorBlocksDirection(Door door, BlockFace fromDirection) {
+        if ((door.getHingeCorner() == BlockFace.NORTH_EAST && door.isOpen() && fromDirection == BlockFace.EAST) ||
+            (door.getHingeCorner() == BlockFace.NORTH_EAST && !door.isOpen() && fromDirection == BlockFace.NORTH) ||
+            (door.getHingeCorner() == BlockFace.SOUTH_EAST && door.isOpen() && fromDirection == BlockFace.SOUTH) ||
+            (door.getHingeCorner() == BlockFace.SOUTH_EAST && !door.isOpen() && fromDirection == BlockFace.EAST) ||
+            (door.getHingeCorner() == BlockFace.NORTH_WEST && door.isOpen() && fromDirection == BlockFace.NORTH) ||
+            (door.getHingeCorner() == BlockFace.NORTH_WEST && !door.isOpen() && fromDirection == BlockFace.WEST) ||
+            (door.getHingeCorner() == BlockFace.SOUTH_WEST && door.isOpen() && fromDirection == BlockFace.WEST) ||
+            (door.getHingeCorner() == BlockFace.SOUTH_WEST && !door.isOpen() && fromDirection == BlockFace.SOUTH)) {
+            return true;
+        } else {
+            return false;//!isVerticallyAxial(fromDirection);
         }
     }
 
