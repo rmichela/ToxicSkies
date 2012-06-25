@@ -1,0 +1,5 @@
+SecondsBetweenPolls: 10
+AboveGroundDamage: 1
+AboveGroundMessage: The air burns your lungs and saps your strength.
+AffectedWorlds:
+- world

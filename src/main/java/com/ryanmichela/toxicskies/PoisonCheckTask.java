@@ -17,7 +17,7 @@ public class PoisonCheckTask implements Runnable {
 
     @Override
     public void run() {
-        if (player.isOnline()) {
+        if (player.isOnline() && TsSettings.playerInAffectedWorld(player)) {
 
             Location playerHead = normalize(player.getLocation()).add(0, 1, 0);
             SkyFinder skyFinder = new DepthFirstSkyFinder();
