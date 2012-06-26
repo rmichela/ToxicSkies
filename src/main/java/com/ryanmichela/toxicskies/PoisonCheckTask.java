@@ -26,7 +26,9 @@ public class PoisonCheckTask implements Runnable {
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DamageApplyTask(player));
             }
 
-            plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, this, TsSettings.getSecondsBetweenPolls());
+            if (plugin.isEnabled()) {
+                plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, this, TsSettings.getSecondsBetweenPolls());
+            }
         }
     }
 
