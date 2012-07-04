@@ -1,5 +1,8 @@
 SecondsBetweenPolls: 10
 AboveGroundDamage: 1
-AboveGroundMessage: The air burns your lungs and saps your strength.
+AboveGroundMessage: The air burns your lungs and saps your strength!
+PumpkinHelmetBreakChancePercent: 8
+PumpkinHelmetBreakMessage: Your pumpkin helmet falls apart in your hands!
+PumpkinHelmetSurviveMessage: Your pumpkin helmet weakens.
 AffectedWorlds:
 - world

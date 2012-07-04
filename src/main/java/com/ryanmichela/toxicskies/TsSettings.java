@@ -35,4 +35,16 @@ public class TsSettings {
         }
         return false;
     }
+
+    public static int pumpkinHelmetBreakChancePercent() {
+        return TsPlugin.getInstance().getConfig().getInt("PumpkinHelmetBreakChancePercent");
+    }
+
+    public static String pumpkinHelmetBreakMessage() {
+        return TsPlugin.getInstance().getConfig().getString("PumpkinHelmetBreakMessage");
+    }
+
+    public static String pumpkinHelmetSurviveMessage() {
+        return TsPlugin.getInstance().getConfig().getString("PumpkinHelmetSurviveMessage");
+    }
 }
