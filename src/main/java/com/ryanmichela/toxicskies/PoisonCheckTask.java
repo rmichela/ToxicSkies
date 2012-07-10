@@ -20,18 +20,23 @@ public class PoisonCheckTask implements Runnable {
     public void run() {
         if (player.isOnline() && TsSettings.playerInAffectedWorld(player)) {
 
-            Location playerHead = normalize(player.getLocation()).add(0, 1, 0);
-            SkyFinder skyFinder = new DepthFirstSkyFinder();
+            try
+            {
+                Location playerHead = normalize(player.getLocation()).add(0, 1, 0);
+                SkyFinder skyFinder = new DepthFirstSkyFinder();
 
-            if (skyFinder.canSeeSky(playerHead, RADIUS_TO_SEEK_SKY)) {
-                Runnable nextTask;
-                if (player.getInventory().getHelmet() != null &&
-                    player.getInventory().getHelmet().getTypeId() == Material.PUMPKIN.getId()) {
-                    nextTask = new PumpkinDecayTask(player);
-                } else {
-                    nextTask = new DamageApplyTask(player);
+                if (skyFinder.canSeeSky(playerHead, RADIUS_TO_SEEK_SKY)) {
+                    Runnable nextTask;
+                    if (player.getInventory().getHelmet() != null &&
+                        player.getInventory().getHelmet().getTypeId() == Material.PUMPKIN.getId()) {
+                        nextTask = new PumpkinDecayTask(player);
+                    } else {
+                        nextTask = new DamageApplyTask(player);
+                    }
+                    plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, nextTask);
                 }
-                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, nextTask);
+            } catch (Throwable t) {
+                plugin.getLogger().severe(t.toString());
             }
 
             if (plugin.isEnabled()) {
