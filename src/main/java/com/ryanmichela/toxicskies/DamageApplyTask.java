@@ -19,8 +19,8 @@ public class DamageApplyTask implements Runnable{
         }
         player.setFoodLevel(player.getFoodLevel() - TsSettings.getAboveGroundDamage());
         player.setSaturation(0);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, TsSettings.getAboveGroundEffectDuration(), 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, TsSettings.getAboveGroundEffectDuration(), 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, TsSettings.getAboveGroundEffectDuration(), 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, TsSettings.getAboveGroundEffectDuration() + 1, 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, TsSettings.getAboveGroundEffectDuration() + 1, 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, TsSettings.getAboveGroundEffectDuration() + 1, 0));
     }
 }
