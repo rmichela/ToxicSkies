@@ -32,7 +32,7 @@ public class TsPlugin extends JavaPlugin  implements Listener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         PoisonCheckTask task = new PoisonCheckTask(this, event.getPlayer());
-        getServer().getScheduler().scheduleAsyncDelayedTask(this, task, 20*10);
+        getServer().getScheduler().scheduleSyncDelayedTask(this, task, 20*10);
     }
 
     static Plugin getInstance() {

@@ -6,21 +6,15 @@
 
     <groupId>com.ryanmichela</groupId>
     <artifactId>ToxicSkies</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <dependencies>
         <dependency>
           <groupId>org.bukkit</groupId>
           <artifactId>craftbukkit</artifactId>
-          <version>1.2.5-R4.1-SNAPSHOT</version>
+          <version>1.4.4-R0.1-SNAPSHOT</version>
           <type>jar</type>
           <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.9</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     

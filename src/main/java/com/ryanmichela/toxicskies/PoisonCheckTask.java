@@ -5,11 +5,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Random;
+
 public class PoisonCheckTask implements Runnable {
     private int RADIUS_TO_SEEK_SKY = 7;
 
     private Plugin plugin;
     private Player player;
+    private Random r = new Random();
 
     public PoisonCheckTask(Plugin plugin, Player player) {
         this.plugin = plugin;
@@ -40,7 +43,8 @@ public class PoisonCheckTask implements Runnable {
             }
 
             if (plugin.isEnabled()) {
-                plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, this, TsSettings.getSecondsBetweenPolls());
+                int offset = r.nextInt(20);
+                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, TsSettings.getSecondsBetweenPolls() + offset);
             }
         }
     }
