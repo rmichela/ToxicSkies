@@ -1,5 +1,6 @@
 package com.ryanmichela.toxicskies;
 
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -20,6 +21,9 @@ public class TsPlugin extends JavaPlugin  implements Listener
 
         for (String worldName : TsSettings.getAffectedWorlds()) {
             getLogger().info("Making the skies toxic in " + worldName);
+            World world = getServer().getWorld(worldName);
+            AmbianceTask task = new AmbianceTask(world);
+            getServer().getScheduler().scheduleSyncDelayedTask(this, task);
         }
 
         getServer().getPluginManager().registerEvents(this, this);
