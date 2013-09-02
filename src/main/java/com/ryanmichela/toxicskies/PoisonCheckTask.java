@@ -21,8 +21,8 @@ public class PoisonCheckTask implements Runnable {
 
     @Override
     public void run() {
+//        plugin.getLogger().warning("Poiston check task");
         if (player.isOnline() && TsSettings.playerInAffectedWorld(player)) {
-
             try
             {
                 Location playerHead = normalize(player.getLocation()).add(0, 1, 0);
@@ -41,11 +41,10 @@ public class PoisonCheckTask implements Runnable {
             } catch (Throwable t) {
                 plugin.getLogger().severe(t.toString());
             }
-
-            if (plugin.isEnabled()) {
-                int offset = r.nextInt(20);
-                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, TsSettings.getSecondsBetweenPolls() + offset);
-            }
+        }
+        if (plugin.isEnabled()) {
+            int offset = r.nextInt(20);
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, TsSettings.getSecondsBetweenPolls() + offset);
         }
     }
 

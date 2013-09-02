@@ -15,7 +15,7 @@ public class DamageApplyTask implements Runnable{
     public void run() {
         player.sendMessage(TsSettings.getAboveGroundMessage());
         if (player.getHealth() <= 10) {
-            player.damage(TsSettings.getAboveGroundDamage());
+            player.damage((double)TsSettings.getAboveGroundDamage());
         }
         player.setFoodLevel(player.getFoodLevel() - TsSettings.getAboveGroundDamage());
         player.setSaturation(0);
