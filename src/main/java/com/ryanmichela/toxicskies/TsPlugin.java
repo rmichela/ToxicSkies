@@ -24,8 +24,11 @@ public class TsPlugin extends JavaPlugin  implements Listener
 
         for (String worldName : TsSettings.getAffectedWorlds()) {
             getLogger().info("Making the skies toxic in " + worldName);
-            AmbianceTask task = new AmbianceTask(this, worldName);
-            getServer().getScheduler().scheduleSyncDelayedTask(this, task);
+            if (TsSettings.getMode() == 1) {
+                // Always raining
+                AmbianceTask task = new AmbianceTask(this, worldName);
+                getServer().getScheduler().scheduleSyncDelayedTask(this, task);
+            }
         }
 
         getServer().getPluginManager().registerEvents(this, this);
@@ -37,7 +40,6 @@ public class TsPlugin extends JavaPlugin  implements Listener
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-//        getLogger().warning("Player Login");
         PoisonCheckTask task = new PoisonCheckTask(this, event.getPlayer());
         getServer().getScheduler().scheduleSyncDelayedTask(this, task, 20*10);
     }

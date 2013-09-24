@@ -7,6 +7,10 @@ import java.util.List;
 public class TsSettings {
     private static int TICKS_PER_SECOND = 20;
 
+    public static int getMode() {
+        return TsPlugin.getInstance().getConfig().getInt("Mode");
+    }
+
     public static int getSecondsBetweenPolls() {
         return TICKS_PER_SECOND * TsPlugin.getInstance().getConfig().getInt("SecondsBetweenPolls");
     }

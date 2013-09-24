@@ -16,6 +16,10 @@ Installation
 
 Configuration
 =============
+* _Mode_:
+** Mode 1 - Always raining. Air always toxic.
+** Mode 2 - Rains now and then (like normal). Air always toxic.
+** Mode 3 - Rains now and then (like normal). Air only toxic when raining.
 * _SecondsBetweenPolls_: sets how frequently player exposure is checked.
 * _AboveGroundDamage_: how many points of damage to do for each exposure.
 * _AboveGroundMessage_: the message to display when a player is exposed.

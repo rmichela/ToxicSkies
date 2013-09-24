@@ -1,3 +1,8 @@
+# Mode 1 - Always raining. Air always toxic.
+# Mode 2 - Rains now and then (like normal). Air always toxic.
+# Mode 3 - Rains now and then (like normal). Air only toxic when raining.
+Mode: 1
+
 SecondsBetweenPolls: 10
 AboveGroundDamage: 1
 AboveGroundMessage: The air burns your lungs and saps your strength!

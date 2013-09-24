@@ -21,8 +21,7 @@ public class PoisonCheckTask implements Runnable {
 
     @Override
     public void run() {
-//        plugin.getLogger().warning("Poiston check task");
-        if (player.isOnline() && TsSettings.playerInAffectedWorld(player)) {
+        if (player.isOnline() && TsSettings.playerInAffectedWorld(player) && modeAllowsDamage(player)) {
             try
             {
                 Location playerHead = normalize(player.getLocation()).add(0, 1, 0);
@@ -50,5 +49,12 @@ public class PoisonCheckTask implements Runnable {
 
     private Location normalize(Location l) {
         return new Location(l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ());
+    }
+
+    private boolean modeAllowsDamage(Player p) {
+        if (TsSettings.getMode() == 1 || TsSettings.getMode() == 2) {
+            return true;
+        }
+        return p.getWorld().hasStorm();
     }
 }
