@@ -26,4 +26,5 @@ Configuration
 * _PumpkinHelmetBreakChancePercent_: the percent chance that a player's pumpkin helmet will break.
 * _PumpkinHelmetBreakMessage_: the message to display when a pumpkin helmet breaks.
 * _PumpkinHelmetSurviveMessage_: the message to display when a pumpkin helmet does not break.
+* _PoisonEffects_: a list of effects to apply when the player is poisoned.
 * _AffectedWorlds_: a list of world names to make toxic.
