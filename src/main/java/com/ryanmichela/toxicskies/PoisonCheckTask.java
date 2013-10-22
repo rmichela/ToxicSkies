@@ -1,5 +1,6 @@
 package com.ryanmichela.toxicskies;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ public class PoisonCheckTask implements Runnable {
 
     @Override
     public void run() {
-        if (player.isOnline() && TsSettings.playerInAffectedWorld(player) && modeAllowsDamage(player)) {
+        if (player.isOnline() && TsSettings.playerInAffectedWorld(player) && modeAllowsDamage(player) && player.getGameMode() != GameMode.CREATIVE) {
             try
             {
                 Location playerHead = normalize(player.getLocation()).add(0, 1, 0);
@@ -30,7 +31,7 @@ public class PoisonCheckTask implements Runnable {
                 if (skyFinder.canSeeSky(playerHead, RADIUS_TO_SEEK_SKY)) {
                     Runnable nextTask;
                     if (player.getInventory().getHelmet() != null &&
-                        player.getInventory().getHelmet().getTypeId() == Material.PUMPKIN.getId()) {
+                        player.getInventory().getHelmet().getType() == Material.PUMPKIN) {
                         nextTask = new PumpkinDecayTask(player);
                     } else {
                         nextTask = new DamageApplyTask(player);
