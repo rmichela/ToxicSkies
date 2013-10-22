@@ -2,7 +2,6 @@ package com.ryanmichela.toxicskies;
 
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class DamageApplyTask implements Runnable{
     private Player player;
@@ -14,13 +13,16 @@ public class DamageApplyTask implements Runnable{
     @Override
     public void run() {
         player.sendMessage(TsSettings.getAboveGroundMessage());
-        if (player.getHealth() <= 10) {
+        // Don't start directly damaging health until after hunger damage has completed
+        if (player.getHealth() <= player.getMaxHealth() / 20) {
             player.damage((double)TsSettings.getAboveGroundDamage());
         }
         player.setFoodLevel(player.getFoodLevel() - TsSettings.getAboveGroundDamage());
         player.setSaturation(0);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, TsSettings.getAboveGroundEffectDuration() + 1, 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, TsSettings.getAboveGroundEffectDuration() + 1, 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, TsSettings.getAboveGroundEffectDuration() + 1, 0));
+
+        // Apply poison effects
+        for(PotionEffect effect : TsSettings.getPoisonEffects()) {
+            player.addPotionEffect(effect, true);
+        }
     }
 }

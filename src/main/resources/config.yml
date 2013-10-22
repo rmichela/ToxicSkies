@@ -9,5 +9,12 @@ AboveGroundMessage: The air burns your lungs and saps your strength!
 PumpkinHelmetBreakChancePercent: 8
 PumpkinHelmetBreakMessage: Your pumpkin helmet falls apart in your hands!
 PumpkinHelmetSurviveMessage: Your pumpkin helmet weakens.
+
+# For a complete list, see: http://jd.bukkit.org/rb/apidocs/org/bukkit/potion/PotionEffectType.html
+PoisonEffects:
+- SLOW
+- SLOW_DIGGING
+- HUNGER
+
 AffectedWorlds:
 - world
