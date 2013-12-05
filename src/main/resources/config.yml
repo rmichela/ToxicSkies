@@ -6,6 +6,7 @@ Mode: 1
 SecondsBetweenPolls: 10
 AboveGroundDamage: 1
 AboveGroundMessage: The air burns your lungs and saps your strength!
+CleanAirMessage: The air is clean here.
 PumpkinHelmetBreakChancePercent: 8
 PumpkinHelmetBreakMessage: Your pumpkin helmet falls apart in your hands!
 PumpkinHelmetSurviveMessage: Your pumpkin helmet weakens.

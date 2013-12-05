@@ -3,12 +3,13 @@ package com.ryanmichela.toxicskies;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.material.Door;
 import org.bukkit.material.TrapDoor;
 
-import java.nio.FloatBuffer;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class DepthFirstSkyFinder extends SkyFinder {
 
@@ -72,9 +73,9 @@ public class DepthFirstSkyFinder extends SkyFinder {
     }
 
     private boolean passable(Location l, BlockFace fromDirection) {
-        int blockType = l.getWorld().getBlockTypeIdAt(l);
+        Material blockType = l.getWorld().getBlockAt(l).getType();
         // Deal with doors being open
-        if (blockType == Material.IRON_DOOR_BLOCK.getId() || blockType == Material.WOODEN_DOOR.getId()) {
+        if (blockType == Material.IRON_DOOR_BLOCK || blockType == Material.WOODEN_DOOR) {
             if (isVerticallyAxial(fromDirection))  {
                 return true;
             } else {
@@ -86,7 +87,7 @@ public class DepthFirstSkyFinder extends SkyFinder {
                 }
             }
         // Deal with hatches being open
-        } else if (blockType == Material.TRAP_DOOR.getId()) {
+        } else if (blockType == Material.TRAP_DOOR) {
             TrapDoor trapDoorBlock = (TrapDoor)l.getBlock().getState().getData();
             if (trapDoorBlock.isOpen() || isHorizontallyPlanar(fromDirection)) {
                 return true;

@@ -12,12 +12,13 @@ public class DamageApplyTask implements Runnable{
 
     @Override
     public void run() {
-        player.sendMessage(TsSettings.getAboveGroundMessage());
+        MessageTracker.sendMessage(player, TsSettings.getAboveGroundMessage());
         // Don't start directly damaging health until after hunger damage has completed
-        if (player.getHealth() <= player.getMaxHealth() / 20) {
+        if (player.getFoodLevel() <= 0) {
             player.damage((double)TsSettings.getAboveGroundDamage());
+        } else {
+            player.setFoodLevel(player.getFoodLevel() - TsSettings.getAboveGroundDamage());
         }
-        player.setFoodLevel(player.getFoodLevel() - TsSettings.getAboveGroundDamage());
         player.setSaturation(0);
 
         // Apply poison effects

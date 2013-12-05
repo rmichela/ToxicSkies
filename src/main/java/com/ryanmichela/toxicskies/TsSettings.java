@@ -30,6 +30,10 @@ public class TsSettings {
         return TsPlugin.getInstance().getConfig().getString("AboveGroundMessage", "The air burns your lungs and saps your strength!");
     }
 
+    public static String getCleanAirMessage() {
+        return TsPlugin.getInstance().getConfig().getString("CleanAirMessage", "The air is clean here.");
+    }
+
     public static List<String> getAffectedWorlds() {
         List<String> worlds = TsPlugin.getInstance().getConfig().getStringList("AffectedWorlds");
         if (worlds == null || worlds.size() == 0) {

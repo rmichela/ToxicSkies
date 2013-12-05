@@ -20,9 +20,9 @@ public class PumpkinDecayTask implements Runnable {
         int breakRoll = r.nextInt(100);
         if (breakRoll < TsSettings.getPumpkinHelmetBreakChancePercent()) {
             player.getInventory().setHelmet(null);
-            player.sendMessage(TsSettings.getPumpkinHelmetBreakMessage());
+            MessageTracker.sendMessage(player, TsSettings.getPumpkinHelmetBreakMessage());
         } else {
-            player.sendMessage(TsSettings.getPumpkinHelmetSurviveMessage());
+            MessageTracker.sendMessage(player, TsSettings.getPumpkinHelmetSurviveMessage());
         }
     }
 }

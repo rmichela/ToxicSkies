@@ -37,6 +37,8 @@ public class PoisonCheckTask implements Runnable {
                         nextTask = new DamageApplyTask(player);
                     }
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, nextTask);
+                } else {
+                    MessageTracker.sendMessage(player, TsSettings.getCleanAirMessage());
                 }
             } catch (Throwable t) {
                 plugin.getLogger().severe(t.toString());

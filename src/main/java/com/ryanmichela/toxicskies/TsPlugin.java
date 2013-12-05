@@ -1,14 +1,14 @@
 package com.ryanmichela.toxicskies;
 
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
+
+import java.io.IOException;
 
 /**
  */
@@ -20,6 +20,13 @@ public class TsPlugin extends JavaPlugin  implements Listener
     }
 
     public void onEnable() {
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            // Failed to submit the stats :-(
+        }
+
         saveDefaultConfig();
 
         for (String worldName : TsSettings.getAffectedWorlds()) {
@@ -40,8 +47,14 @@ public class TsPlugin extends JavaPlugin  implements Listener
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        MessageTracker.initPlayer(event.getPlayer());
         PoisonCheckTask task = new PoisonCheckTask(this, event.getPlayer());
         getServer().getScheduler().scheduleSyncDelayedTask(this, task, 20*10);
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        MessageTracker.clearMessage(event.getPlayer());
     }
 
     static Plugin getInstance() {
