@@ -17,14 +17,17 @@ Installation
 Configuration
 =============
 * _Mode_:
-** Mode 1 - Always raining. Air always toxic.
-** Mode 2 - Rains now and then (like normal). Air always toxic.
-** Mode 3 - Rains now and then (like normal). Air only toxic when raining.
+  * Mode 1 - Always raining. Air always toxic.
+  * Mode 2 - Rains now and then (like normal). Air always toxic.
+  * Mode 3 - Rains now and then (like normal). Air only toxic when raining.
 * _SecondsBetweenPolls_: sets how frequently player exposure is checked.
 * _AboveGroundDamage_: how many points of damage to do for each exposure.
 * _AboveGroundMessage_: the message to display when a player is exposed.
 * _PumpkinHelmetBreakChancePercent_: the percent chance that a player's pumpkin helmet will break.
 * _PumpkinHelmetBreakMessage_: the message to display when a pumpkin helmet breaks.
 * _PumpkinHelmetSurviveMessage_: the message to display when a pumpkin helmet does not break.
+* _PumpkinHelmetMaterial_: the material name of the pumpkin helmet.
 * _PoisonEffects_: a list of effects to apply when the player is poisoned.
 * _AffectedWorlds_: a list of world names to make toxic.
+  * To change a world's mode, add a pipe followed by the mode number after the world name
+  * Ex: myWorld|2
