@@ -10,6 +10,7 @@ CleanAirMessage: The air is clean here.
 PumpkinHelmetBreakChancePercent: 8
 PumpkinHelmetBreakMessage: Your pumpkin helmet falls apart in your hands!
 PumpkinHelmetSurviveMessage: Your pumpkin helmet weakens.
+PumpkinHelmetMaterial: PUMPKIN
 
 # For a complete list, see: http://jd.bukkit.org/rb/apidocs/org/bukkit/potion/PotionEffectType.html
 PoisonEffects:

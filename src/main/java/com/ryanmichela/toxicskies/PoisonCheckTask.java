@@ -2,7 +2,6 @@ package com.ryanmichela.toxicskies;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -31,7 +30,7 @@ public class PoisonCheckTask implements Runnable {
                 if (skyFinder.canSeeSky(playerHead, RADIUS_TO_SEEK_SKY)) {
                     Runnable nextTask;
                     if (player.getInventory().getHelmet() != null &&
-                        player.getInventory().getHelmet().getType() == Material.PUMPKIN) {
+                        player.getInventory().getHelmet().getType() == TsSettings.getPumpkinHelmetMaterial()) {
                         nextTask = new PumpkinDecayTask(player);
                     } else {
                         nextTask = new DamageApplyTask(player);

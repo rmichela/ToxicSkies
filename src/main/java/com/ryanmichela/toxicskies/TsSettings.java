@@ -1,5 +1,6 @@
 package com.ryanmichela.toxicskies;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -62,6 +63,15 @@ public class TsSettings {
 
     public static String getPumpkinHelmetSurviveMessage() {
         return TsPlugin.getInstance().getConfig().getString("PumpkinHelmetSurviveMessage", "Your pumpkin helmet weakens.");
+    }
+
+    public static Material getPumpkinHelmetMaterial() {
+        String materialName = TsPlugin.getInstance().getConfig().getString("PumpkinHelmetMaterial", "PUMPKIN");
+        Material material = Material.matchMaterial(materialName);
+        if (material == null) {
+            return Material.PUMPKIN;
+        }
+        return material;
     }
 
     private static List<PotionEffect> potionEffects;
