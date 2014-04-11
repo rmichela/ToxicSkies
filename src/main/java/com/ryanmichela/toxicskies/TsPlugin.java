@@ -31,7 +31,7 @@ public class TsPlugin extends JavaPlugin  implements Listener
 
         for (String worldName : TsSettings.getAffectedWorlds()) {
             getLogger().info("Making the skies toxic in " + worldName);
-            if (TsSettings.getMode() == 1) {
+            if (TsSettings.getMode(worldName) == 1) {
                 // Always raining
                 AmbianceTask task = new AmbianceTask(this, worldName);
                 getServer().getScheduler().scheduleSyncDelayedTask(this, task);

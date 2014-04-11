@@ -5,14 +5,39 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TsSettings {
     private static int TICKS_PER_SECOND = 20;
+    private static Map<String, Integer> worldModes;
 
-    public static int getMode() {
-        return TsPlugin.getInstance().getConfig().getInt("Mode", 1);
+    // Static initializer
+    static {
+        worldModes = new HashMap<String, Integer>();
+        List<String> worlds = TsPlugin.getInstance().getConfig().getStringList("AffectedWorlds");
+        int defaultMode = TsPlugin.getInstance().getConfig().getInt("Mode", 1);
+        if (worlds == null || worlds.size() == 0) {
+            worlds = new ArrayList<String>();
+            worlds.add("world");
+        }
+
+        for (String world : worlds) {
+            String[] splits = world.split("\\|", 2);
+            if (splits.length == 1) {
+                worldModes.put(splits[0], defaultMode);
+            } else {
+                try {
+                    worldModes.put(splits[0], Integer.parseInt(splits[1]));
+                } catch (NumberFormatException e) {
+                    TsPlugin.getInstance().getLogger().severe("Invalid world mode " + splits[1]);
+                    worldModes.put(splits[0], defaultMode);
+                }
+            }
+        }
+    }
+
+    public static int getMode(String world) {
+        return worldModes.get(world);
     }
 
     public static int getSecondsBetweenPolls() {
@@ -35,13 +60,8 @@ public class TsSettings {
         return TsPlugin.getInstance().getConfig().getString("CleanAirMessage", "The air is clean here.");
     }
 
-    public static List<String> getAffectedWorlds() {
-        List<String> worlds = TsPlugin.getInstance().getConfig().getStringList("AffectedWorlds");
-        if (worlds == null || worlds.size() == 0) {
-            worlds = new ArrayList<String>();
-            worlds.add("world");
-        }
-        return worlds;
+    public static Set<String> getAffectedWorlds() {
+        return worldModes.keySet();
     }
 
     public static boolean playerInAffectedWorld(Player player) {

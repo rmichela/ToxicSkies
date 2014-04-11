@@ -1,3 +1,4 @@
+# Global mode - controls the default way Toxic Skies makes the air poisonous
 # Mode 1 - Always raining. Air always toxic.
 # Mode 2 - Rains now and then (like normal). Air always toxic.
 # Mode 3 - Rains now and then (like normal). Air only toxic when raining.
@@ -18,5 +19,9 @@ PoisonEffects:
 - SLOW_DIGGING
 - HUNGER
 
+# Only the worlds listed below will have toxic air
+# To override the mode of the world, add a pipe and the mode number to the end
+#    ex:  - myWorld|2
+# By default, all affected worlds inherit the global mode
 AffectedWorlds:
 - world

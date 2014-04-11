@@ -54,7 +54,7 @@ public class PoisonCheckTask implements Runnable {
     }
 
     private boolean modeAllowsDamage(Player p) {
-        if (TsSettings.getMode() == 1 || TsSettings.getMode() == 2) {
+        if (TsSettings.getMode(p.getWorld().getName()) == 1 || TsSettings.getMode(p.getWorld().getName()) == 2) {
             return true;
         }
         return p.getWorld().hasStorm();
